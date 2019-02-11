@@ -85,14 +85,9 @@
                 </div>
 
                 <div class="links">
-                    <h1>Start</h1>
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    Contact the creator
+                    <p>Email: test@test.com</p>
+                    <p>Phone: 0000 000 000</p>
                 </div>
             </div>
         </div>
