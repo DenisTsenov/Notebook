@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 /**
- * Description of PagesController
- * This controller is responsible for all static pages
+ * This controller manage for all static pages
  *
  * @author denis
  */
