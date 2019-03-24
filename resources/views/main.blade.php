@@ -1,7 +1,5 @@
 @include('partials._head')
 
-    <body>
-
 @include('partials._nav')
     <h1 class="text-center">My notebook!</h1>
     <hr/>

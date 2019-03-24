@@ -11,3 +11,4 @@
         @yield('stylesheets')
         <title>@yield('title')</title>
     </head>
+    <body>
