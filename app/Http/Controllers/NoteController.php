@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+//use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Note;
 
@@ -34,8 +35,26 @@ class NoteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        //validate the data
+        $request->validate([
+            'title' => 'min:2|max:225',
+            'content' => 'required|min:5|max:3000'
+            
+        ]);
+        //call the Note model if the validation has passed
+        $newNote = new Note();
+        
+        //store the data
+        $newNote->title = $request->title;
+        $newNote->content = $request->content;
+        
+        //save the record
+        $newNote->save();
+        
+        //redirect to other page with flash message
+        $request->session()->flash('status', 'Task was successful!');//one request msg
+        return redirect()->route('note.show', ['id' => $newNote->id]);
     }
 
     /**

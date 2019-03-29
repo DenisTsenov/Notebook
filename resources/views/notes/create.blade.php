@@ -16,7 +16,7 @@
 
         <div class="form-group">
             {{ Form::label('content', 'Note Content *') }}
-            {{ Form::textarea('title', null, ['class' => 'form-control', 'rows' => 3]) }}
+            {{ Form::textarea('content', null, ['class' => 'form-control', 'rows' => 3]) }}
         </div>
 
         {{ Form::submit('Submit', ['class' => 'btn btn-outline-info btn-block']) }}
