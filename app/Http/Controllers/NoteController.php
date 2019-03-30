@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-//use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Note;
 
@@ -53,7 +53,7 @@ class NoteController extends Controller
         $newNote->save();
         
         //redirect to other page with flash message
-        $request->session()->flash('status', 'Task was successful!');//one request msg
+        $request->session()->flash('success', 'Task was successfully created!');//one request msg
         return redirect()->route('note.show', ['id' => $newNote->id]);
     }
 
@@ -65,7 +65,9 @@ class NoteController extends Controller
      */
     public function show($id)
     {
-        //
+        $note = Note::find($id);
+        
+        return view('note.show')->withNote($note);
     }
 
     /**

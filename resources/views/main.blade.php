@@ -5,6 +5,7 @@
     <hr/>
 
     <div class="container"> 
+        @include('partials._message')
         @yield('content')
         <hr/>
 
