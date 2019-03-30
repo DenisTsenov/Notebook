@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Note;
 
@@ -67,7 +66,7 @@ class NoteController extends Controller
     {
         $note = Note::find($id);
         
-        return view('note.show')->withNote($note);
+        return view('notes.show', ['note' => $note]);
     }
 
     /**
