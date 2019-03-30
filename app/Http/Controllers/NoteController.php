@@ -38,7 +38,7 @@ class NoteController extends Controller
     {   
         //validate the data
         $request->validate([
-            'title' => 'min:2|max:225',
+            'title' => 'max:225',
             'content' => 'required|min:5|max:3000'
             
         ]);
