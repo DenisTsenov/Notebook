@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Note;
 
@@ -14,7 +15,9 @@ class NoteController extends Controller
      */
     public function index()
     {
-        //
+        $notes = DB::table('notes')->paginate(3);
+        
+        return view('notes.index', ['notes' => $notes]);
     }
 
     /**
