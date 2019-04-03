@@ -80,7 +80,9 @@ class NoteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $note = Note::find($id);
+        
+        return view('notes.edit', ['note' => $note]);
     }
 
     /**
@@ -92,7 +94,25 @@ class NoteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //validate the data
+        $request->validate([
+            'title' => 'max:225',
+            'content' => 'required|min:5|max:3000'
+            
+        ]);
+        //call the Note model if the validation has passed
+        $newNote = new Note();
+        
+        //store the data
+        $newNote->title = $request->title;
+        $newNote->content = $request->content;
+        
+        //save the record
+        $newNote->save();
+        
+        //redirect to other page with flash message
+        $request->session()->flash('success_edit', 'Task was successfully edited!');//one request msg
+        return redirect()->route('notes.show', ['id' => $newNote->id]);
     }
 
     /**
@@ -103,6 +123,6 @@ class NoteController extends Controller
      */
     public function destroy($id)
     {
-        //
+//        $note = Note::destroy($id);
     }
 }

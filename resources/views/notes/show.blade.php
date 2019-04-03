@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-md-8">
         @if(empty($note->title))
-        <p class="h3 text-center">No title</p>>
+        <p class="h3 text-center">No title</p>
         @elseif($note->title)
         <p class="h3 text-center">{{ $note->title }}</p>
         @endif
