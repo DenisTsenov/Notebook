@@ -100,18 +100,19 @@ class NoteController extends Controller
             'content' => 'required|min:5|max:3000'
             
         ]);
-        $newNote = Note::findOrFail($id);
+        // find the record in the Db
+        $editNote = Note::find($id);
         
         //store the data
-        $newNote->title = $request->title;
-        $newNote->content = $request->content;
+        $editNote->title = $request->title;
+        $editNote->content = $request->content;
         
         //save the record
-        $newNote->save();
+        $editNote->save();
         
         //redirect to other page with flash message
-        $request->session()->flash('success_edit', 'Task was successfully edited!');//one request msg
-        return redirect()->route('notes.show', ['id' => $newNote->id]);
+        $request->session()->flash('success', 'Task was successfully edited!');//one request msg
+        return redirect()->route('note.show', ['id' => $editNote->id]);
     }
 
     /**

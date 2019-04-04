@@ -5,12 +5,6 @@
     </div>
     @endif
     
-    @if(Session::has('success_edit'))
-    <div class="alert alert-primary" role="alert">
-        Success! {{ Session::get('success_edit') }}
-    </div>
-    @endif`
-    
     @if(count($errors) > 0) 
     <div class="alert alert-danger" role="alert">
         <strong>Oops!</strong>

@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-md-8 offset-2">
 
-        {!! Form::open(['route' => 'note.store', 'method' => 'POST', 'data-parsley-validate' => '']) !!}
+        {{ Form::model($note, ['route' => ['note.update', $note->id], 'method' => 'PUT', 'data-parsley-validate' => '']) }}
         <div class="form-group">
             {{ Form::label('title', 'Title') }}
             {{ Form::text('title', $note->title, [
