@@ -33,7 +33,7 @@
                     ]) }}
         </div>
 
-        {{ Form::submit('Submit', ['class' => 'btn btn-outline-info btn-block']) }}
+        {{ Form::submit('Edit', ['class' => 'btn btn-outline-success btn-block']) }}
 
         {!! Form::close() !!}
 

@@ -93,15 +93,14 @@ class NoteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
         //validate the data
         $request->validate([
             'title' => 'max:225',
             'content' => 'required|min:5|max:3000'
             
         ]);
-        //call the Note model if the validation has passed
-        $newNote = new Note();
+        $newNote = Note::findOrFail($id);
         
         //store the data
         $newNote->title = $request->title;
