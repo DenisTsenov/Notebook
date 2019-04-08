@@ -31,7 +31,9 @@
                     <td>{{strlen($note->content) > 10 ? substr($note->content, 0 , 10) . '...': $note->content }}</td>
                     <td>{!! Html::linkRoute('note.show', 'View', [$note->id], ['class' => 'btn btn-success btn-block']) !!}</td>
                     <td>{!! Html::linkRoute('note.edit', 'Edit', [$note->id], ['class' => 'btn btn-info btn-block']) !!}</td>
-                    <td>{!! Html::linkRoute('note.destroy', 'Delete', [$note->id], ['class' => 'btn btn-danger btn-block']) !!}</td>
+                    {{ Form::open(['route' => ['note.destroy', $note->id], 'method' => 'DELETE']) }}
+                    <td>{{ Form::submit('Delete', ['class' => 'btn btn-danger btn-block']) }}</td>
+                    {{ Form::close() }}
                 </tr>
                @endforeach
             </tbody>

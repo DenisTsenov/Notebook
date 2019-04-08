@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Note;
+use App\Models\Note;
+use Session;
 
 class NoteController extends Controller
 {
@@ -123,6 +124,11 @@ class NoteController extends Controller
      */
     public function destroy($id)
     {
-//        $note = Note::destroy($id);
+        $noteToDelete = Note::find($id);
+        $noteToDelete->delete();
+        Session::flash('success', 'The post was deleted successfully.');
+        
+        return redirect()->route('note.index');
+        
     }
 }

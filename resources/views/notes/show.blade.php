@@ -29,7 +29,9 @@
                         {!! Html::linkRoute('note.edit', 'Edit', [$note->id], ['class' => 'btn btn-info btn-block']) !!}
                     </div>
                     <div class="col-sm-6">
-                        {!! Html::linkRoute('note.destroy', 'Delete', [$note->id], ['class' => 'btn btn-danger btn-block']) !!}
+                        {{ Form::open(['route' => ['note.destroy', $note->id], 'method' => 'DELETE']) }}
+                            <td>{{ Form::submit('Delete', ['class' => 'btn btn-danger btn-block']) }}</td>
+                        {{ Form::close() }}
                     </div>
                 </div>
             </dl>
