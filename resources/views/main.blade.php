@@ -1,14 +1,12 @@
 @include('partials._head')
 
-@include('partials._nav')
-    <h1 class="text-center">My notebook!</h1>
-    <hr/>
-
-    <div class="container"> 
+    <div class="container main"> 
+        @include('partials._nav')
+        <main class="py-4">
         @include('partials._message')
         @yield('content')
-        <hr/>
-
+        
+        </main>
         <p class="text-center">All right reserved @</p>
     </div> 
 
@@ -18,5 +16,7 @@
 @include('partials._javascript')
     
 @yield('scripts')
+
+@yield('ajax')
 
 @include('partials._footer')

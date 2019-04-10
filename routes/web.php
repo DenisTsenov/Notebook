@@ -11,6 +11,8 @@
 |
 */
 
+Route::get('note/{?page}', ['as' => 'note.ajaxPagination', 'uses' => 'NoteController@ajaxPagination']);
+
 Route::resource('note','NoteController');
 
 Route::get('/', 'PagesController@getIndex');

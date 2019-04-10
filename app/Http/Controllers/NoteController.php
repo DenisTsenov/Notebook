@@ -7,18 +7,34 @@ use Illuminate\Http\Request;
 use App\Models\Note;
 use Session;
 
-class NoteController extends Controller
-{
+class NoteController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $notes = DB::table('notes')->paginate(3);
-        
+    public function index() {
+
+        $notes = DB::table('notes')->orderBy('created_at', 'desc')->paginate(3);
+
         return view('notes.index', ['notes' => $notes]);
+    }
+
+    /**
+     * Display a listing of the resource using ajax request
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    function ajaxPagination(Request $request) {
+
+        if ($request->ajax()) {
+
+            $notes = DB::table('notes')->orderBy('created_at', 'desc')->paginate(3);
+
+            return view('notes.index', compact($notes))->render();
+        }
     }
 
     /**
@@ -26,8 +42,7 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         return view('notes.create');
     }
 
@@ -37,26 +52,24 @@ class NoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {   
+    public function store(Request $request) {
         //validate the data
         $request->validate([
             'title' => 'max:225',
             'content' => 'required|min:5|max:3000'
-            
         ]);
         //call the Note model if the validation has passed
         $newNote = new Note();
-        
+
         //store the data
         $newNote->title = $request->title;
         $newNote->content = $request->content;
-        
+
         //save the record
         $newNote->save();
-        
+
         //redirect to other page with flash message
-        $request->session()->flash('success', 'Task was successfully created!');//one request msg
+        $request->session()->flash('success', 'Task was successfully created!'); //one request msg
         return redirect()->route('note.show', ['id' => $newNote->id]);
     }
 
@@ -66,10 +79,9 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $note = Note::find($id);
-        
+
         return view('notes.show', ['note' => $note]);
     }
 
@@ -79,10 +91,9 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $note = Note::find($id);
-        
+
         return view('notes.edit', ['note' => $note]);
     }
 
@@ -93,26 +104,24 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {   
+    public function update(Request $request, $id) {
         //validate the data
         $request->validate([
             'title' => 'max:225',
             'content' => 'required|min:5|max:3000'
-            
         ]);
         // find the record in the Db
         $editNote = Note::find($id);
-        
+
         //store the data
         $editNote->title = $request->title;
         $editNote->content = $request->content;
-        
+
         //save the record
         $editNote->save();
-        
+
         //redirect to other page with flash message
-        $request->session()->flash('success', 'Task was successfully edited!');//one request msg
+        $request->session()->flash('success', 'Task was successfully edited!'); //one request msg
         return redirect()->route('note.show', ['id' => $editNote->id]);
     }
 
@@ -122,13 +131,12 @@ class NoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $noteToDelete = Note::find($id);
         $noteToDelete->delete();
         Session::flash('success', 'The post was deleted successfully.');
-        
+
         return redirect()->route('note.index');
-        
     }
+
 }
