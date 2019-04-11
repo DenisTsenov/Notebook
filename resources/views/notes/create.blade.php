@@ -32,6 +32,11 @@
                 'maxlength' => '3000',
                     ]) }}
         </div>
+        <div class="form-check">
+            {{ Form::checkbox('important', 'value', false,['class' => 'form-check-input']) }}
+            {{ Form::label('important', 'Marks as Important', ['class' => 'form-check-label']) }}
+            <br><br>
+        </div>
 
         {{ Form::submit('Submit', ['class' => 'btn btn-outline-info btn-block']) }}
 

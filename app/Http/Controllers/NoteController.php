@@ -8,6 +8,8 @@ use App\Models\Note;
 use Session;
 
 class NoteController extends Controller {
+    
+    const STATUS_OK = 200;
 
     /**
      * Display a listing of the resource.
@@ -33,7 +35,7 @@ class NoteController extends Controller {
 
             $notes = DB::table('notes')->orderBy('created_at', 'desc')->paginate(3);
 
-            return view('notes.index', compact($notes))->render();
+            return Response::json(['notes' => $notes], self::STATUS_OK);
         }
     }
 
@@ -64,6 +66,7 @@ class NoteController extends Controller {
         //store the data
         $newNote->title = $request->title;
         $newNote->content = $request->content;
+        $newNote->important = $request->has('important');
 
         //save the record
         $newNote->save();
@@ -116,7 +119,8 @@ class NoteController extends Controller {
         //store the data
         $editNote->title = $request->title;
         $editNote->content = $request->content;
-
+        $editNote->important = $request->has('important');
+        
         //save the record
         $editNote->save();
 

@@ -20,7 +20,7 @@
             </thead>
             <tbody>
                 @foreach($notes as $note)
-                <tr>
+                <tr class="{{ $note->important ? 'table-danger' : '' }}">
                     <th scope="row">{{$note->id}}</th>
                     @if(empty($note->title))
                     <td class="text-warning">No title</td>
@@ -51,28 +51,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-
-$(function() {
-    $('body').on('click', '.pagination a', function(e) {
+$(document).ready((function () {
+    $('body').on('click', '.pagination a', function (e) {
         e.preventDefault();
-       
-        var page_no=$(this).attr('href').split('page=')[1]; 
+        var page_no = $(this).attr('href').split('page=')[1];
         getPosts(page_no);
-        
     });
-
     function getPosts(page) {
-    
         $.ajax({
-            url :'?page=' + page,  
+            url: '?page=' + page,
         }).done(function (data) {
-            $('.container').empty().html(data);  
+            $('.container').empty().html(data);
             location.hash = page;
         }).fail(function () {
             alert('Error in Loading Notes.');
         });
     }
 });
-
+        )
 </script>
 @endsection

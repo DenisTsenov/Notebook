@@ -32,11 +32,16 @@
                 'maxlength' => '3000',
                     ]) }}
         </div>
+        <div class="form-check">
+            {{ Form::checkbox('important', 'value', $note->important,['class' => 'form-check-input']) }}
+            {{ Form::label('important', 'Marks as Important', ['class' => 'form-check-label']) }}
+            <br><br>
+        </div>
 
         {{ Form::submit('Edit', ['class' => 'btn btn-outline-success btn-block']) }}
-
+        {!! $note->important ? '<span class="badge badge-warning">This Note Is Marked as Important</span>' : '' !!}
         {!! Form::close() !!}
-
+        
     </div>    
 </div>
 @endsection
