@@ -51,7 +51,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-$(document).ready((function () {
+$(document).ready(function () {
     $('body').on('click', '.pagination a', function (e) {
         e.preventDefault();
         var page_no = $(this).attr('href').split('page=')[1];
@@ -59,15 +59,14 @@ $(document).ready((function () {
     });
     function getPosts(page) {
         $.ajax({
-            url: '?page=' + page,
-        }).done(function (data) {
+            url: 'note?page=' + page,
+        success: function (data) {
             $('.container').empty().html(data);
             location.hash = page;
-        }).fail(function () {
+        }}).fail(function () {
             alert('Error in Loading Notes.');
         });
     }
 });
-        )
 </script>
 @endsection
