@@ -16,17 +16,19 @@
 </div>
 
 <div class="row align-items-start text-center"> {{-- Start of row div --}}
-    <div class="col-md-6">
-        <div class="col-sm-6">
+    <div class="col-md-6 ">
+        <div class="col-sm-6 ">
+            {!! $importantNotes->count() == 0 ? '<h1 class="display-6">There are no notes for now</h1>' : '' !!}
             @foreach($importantNotes as $importantNote)
-            <div class="card" style="width: 18rem;">
-                <div class="card-body alert alert-warning">
+            <div class="card {{ $noImportant ?? ''}}" style="width: 18rem;">
+                <div class="card-body alert">
                     <h5 class="card-title">{{ $importantNote->title ?? 'No title' }}</h5>
-                    <a href="{{ route('note.show', $importantNote->id) }}" class="btn btn-primary">Read</a>
+                    <a href="{{ route('note.slug', $importantNote->slug) }}" class="btn btn-primary">Read</a>
                 </div>
             </div>
             <br>
             @endforeach
+            
         </div>
     </div>
 

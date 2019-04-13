@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Pages;
 
+use App\Http\Controllers\Controller;
 use App\Models\Note;
 
 /**
@@ -38,10 +39,18 @@ class PagesController extends Controller{
      */
     public function getIndex() {
         
-        $importantNotes = Note::select('id', 'title')->where('important', true)
+        $importantNotes = Note::select('id', 'title', 'slug')->where('important', true)
         ->orderBy('created_at', 'desc')->limit(3)->get();
+        $noImportant = 'alert-warning';
         
-        return view(self::VIEW_PATH.'/welcome', ['importantNotes' => $importantNotes]);
+        if($importantNotes->count() < 1){
+            $importantNotes = Note::select('id', 'title', 'slug')
+            ->orderBy('created_at', 'desc')->limit(3)->get();
+            $noImportant = false;
+        }
+        
+        return view(self::VIEW_PATH.'/welcome', 
+        ['importantNotes' => $importantNotes, 'noImportant' => $noImportant]);
     }
     
 }

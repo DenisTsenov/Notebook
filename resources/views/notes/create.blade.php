@@ -20,6 +20,19 @@
                     ]) }}
             <small id="emailHelp" class="form-text text-muted">This field is not mandatory.</small>
         </div>
+        <div class="form-group">
+            {{ Form::label('slug', 'Slug*') }}
+            {{ Form::text('slug', null, [
+                'class' => 'form-control',
+                'required',
+                'data-parsley-required' => 'true',
+                'minlength' => '2',
+                'maxlength' => '255',
+                    ]) }}
+            <small id="emailHelp" class="form-text text-muted">
+                This value is required in order to search easily. 
+            </small>
+        </div>
 
         <div class="form-group">
             {{ Form::label('content', 'Note Content *') }}

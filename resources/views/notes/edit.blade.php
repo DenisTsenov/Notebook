@@ -22,6 +22,20 @@
         </div>
 
         <div class="form-group">
+            {{ Form::label('slug', 'Slug*') }}
+            {{ Form::text('slug', null, [
+                'class' => 'form-control',
+                'required',
+                'data-parsley-required' => 'true',
+                'minlength' => '2',
+                'maxlength' => '255',
+                    ]) }}
+            <small id="emailHelp" class="form-text text-muted">
+                This value is required in order to search easily. 
+            </small>
+        </div>
+
+        <div class="form-group">
             {{ Form::label('content', 'Note Content *') }}
             {{ Form::textarea('content', $note->content, [
                 'class' => 'form-control',
@@ -41,7 +55,7 @@
         {{ Form::submit('Edit', ['class' => 'btn btn-outline-success btn-block']) }}
         {!! $note->important ? '<span class="badge badge-warning">This Note Is Marked as Important</span>' : '' !!}
         {!! Form::close() !!}
-        
+
     </div>    
 </div>
 @endsection

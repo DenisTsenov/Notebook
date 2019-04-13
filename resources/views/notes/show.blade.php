@@ -16,6 +16,10 @@
     <div class="col-md-4">
         <div class="well">
             <dl class="dl-hroizontal">
+                <dt class="">Slug</dt>
+                <dd><a href="{{ url('notes-slug', $note->slug) }}">{{ $note->slug }}</a></dd>
+            </dl>
+            <dl class="dl-hroizontal">
                 <dt class="">Created at</dt>
                 <dd>{{ date("Y / M / d(D) - H:i", time($note->created_at)) }}</dd>
             </dl>
