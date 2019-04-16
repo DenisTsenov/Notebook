@@ -9,7 +9,7 @@ use App\Models\Note;
 use Session;
 
 class NoteController extends Controller {
-    
+
     const STATUS_OK = 200;
 
     /**
@@ -34,7 +34,7 @@ class NoteController extends Controller {
 
         if ($request->ajax()) {
 
-            $notes = DB::table('notes')->orderBy('created_at', 'desc')->paginate(3);
+            $notes = DB::table('notes')->orderBy('created_at', 'desc')->paginate(3)->get();
 
             return Response::json(['notes' => $notes], self::STATUS_OK);
         }
@@ -71,7 +71,7 @@ class NoteController extends Controller {
         $newNote->content = $request->content;
         $newNote->slug = $request->slug;
         $newNote->important = $request->has('important');
-        
+
 
         //save the record
         $newNote->save();
@@ -88,9 +88,9 @@ class NoteController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        
+
         $note = Note::find($id);
-        
+
         return view('notes.show', ['note' => $note]);
     }
 
@@ -114,22 +114,23 @@ class NoteController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
+        // find the record in the Db
+        $editNote = Note::find($id);
+        
         //validate the data
         $request->validate([
             'title' => 'max:225',
             'content' => 'required|min:5|max:3000',
-            'slug' => 'required|alpha_dash|min:2|max:225|unique:notes,slug',
+            'slug' => ($editNote->slug != $request->slug) ? "required|alpha_dash|min:2|max:225|unique:notes,slug,$id" : '',
             'inportant' => 'boolean'
         ]);
-        // find the record in the Db
-        $editNote = Note::find($id);
 
         //store the data
-       $newNote->title = $request->title;
-        $newNote->content = $request->content;
-        $newNote->slug = $request->slug;
-        $newNote->important = $request->has('important');
-        
+        $editNote->title = $request->title;
+        $editNote->content = $request->content;
+        $editNote->slug = $request->slug;
+        $editNote->important = $request->has('important');
+
         //save the record
         $editNote->save();
 

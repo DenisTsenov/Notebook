@@ -17,7 +17,7 @@
         <div class="well">
             <dl class="dl-hroizontal">
                 <dt class="">Slug</dt>
-                <dd><a href="{{ url('notes-slug', $note->slug) }}">{{ $note->slug }}</a></dd>
+                <dd><a href="{{ route('note.slug', $note->slug) }}">{{ $note->slug }}</a></dd>
             </dl>
             <dl class="dl-hroizontal">
                 <dt class="">Created at</dt>

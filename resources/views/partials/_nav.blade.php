@@ -11,10 +11,13 @@
                 <a class="nav-link" href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item {{ Request::is('about') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('/about') }}">About<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ url('/about') }}">About</a>
             </li>
             <li class="nav-item {{ Request::is('contact') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('/contact') }}">Contact <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ url('/contact') }}">Contact </a>
+            </li>
+            <li class="nav-item {{ Request::is('all-notes') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('note.all') }}">Quick View of all</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -27,10 +30,18 @@
                     <a class="dropdown-item" href="#">My Profile</a>
                 </div>
             </li>
+
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
+        <ul class="navbar-nav mr-auto">
+
+
+            <li class="nav-item {{ Request::is('login') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('get.login') }}">Login <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
     </div>
 </nav>

@@ -6,7 +6,32 @@ use App\Http\Controllers\Controller;
 use App\Models\Note;
 
 class SlugController extends Controller {
+    
+    const STATUS_OK = 200;
+    
+    public function getIndex() {
+        
+        $allNotes = Note::orderBy('created_at', 'desc')->paginate(3);
+        
+        return view('slugs.index', ['allNotes' => $allNotes]);
+    }
+    
+       /**
+     * Display a listing of the resource using ajax request
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    function ajaxPagination(Request $request) {
 
+        if ($request->ajax()) {
+
+            $allNotes = DB::table('notes')->orderBy('created_at', 'desc')->paginate(3);
+
+            return Response::json(['allNotes' => $allNotes], self::STATUS_OK);
+        }
+    }
+    
     /**
      * Return Note find by it's slug
      * 
