@@ -29,7 +29,7 @@
                     <a class="dropdown-item" href="{{ route('note.index')}}">Notes List</a>
                     <a class="dropdown-item" href="{{ route('note.create')}}">Create New Note</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">My Profile</a>
+                    <a class="dropdown-item" href="#">{{ Auth::user()->name }} Profile</a>
                 </div>
             </li>
              @endif

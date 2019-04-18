@@ -18,12 +18,13 @@ const PAGES = 'Pages';
  * Start of auth routes
  */
 //login
-Route::get('auth/login', 'Auth\LoginController@showLoginForm')->name('get.login');
-Route::post('auth/login', 'Auth\LoginController@login')->name('post.login');
-Route::get('auth/logout', 'Auth\LoginController@logout')->name('logout');
-//register
-Route::get('auth/register', 'Auth\RegisterController@showRegistrationForm')->name('get.register');
-Route::post('auth/register', 'Auth\RegisterController@register')->name('post.register');
+Auth::routes();
+//Route::get('auth/login', 'Auth\LoginController@showLoginForm')->name('get.login');
+//Route::post('auth/login', 'Auth\LoginController@login')->name('post.login');
+//Route::get('auth/logout', 'Auth\LoginController@logout')->name('logout');
+////register
+//Route::get('auth/register', 'Auth\RegisterController@showRegistrationForm')->name('get.register');
+//Route::post('auth/register', 'Auth\RegisterController@register')->name('post.register');
 /**
  * End of auth routes
  */
