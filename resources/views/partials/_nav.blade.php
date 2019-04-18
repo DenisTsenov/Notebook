@@ -16,9 +16,11 @@
             <li class="nav-item {{ Request::is('contact') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('/contact') }}">Contact </a>
             </li>
+            @if(Auth::check())
             <li class="nav-item {{ Request::is('all-notes') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('note.all') }}">Quick View of all</a>
             </li>
+           
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Notes
@@ -30,18 +32,26 @@
                     <a class="dropdown-item" href="#">My Profile</a>
                 </div>
             </li>
-
+             @endif
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <ul class="navbar-nav mr-auto">
-
-
-            <li class="nav-item {{ Request::is('login') ? 'active' : '' }}">
+            
+            @if(!Auth::check())
+            <li class="nav-item {{ Request::is('auth/register') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('get.register') }}">Register <span class="sr-only">(current)</span></a>
+            </li>
+             <li class="nav-item {{ Request::is('auth/login') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('get.login') }}">Login <span class="sr-only">(current)</span></a>
             </li>
-        </ul>
+            @elseif(Auth::check())
+                
+             <li class="nav-item {{ Request::is('logout') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('logout') }}">Logout<span class="sr-only">(current)</span></a>
+            </li>
+            @endif
     </div>
 </nav>

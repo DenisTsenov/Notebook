@@ -14,6 +14,10 @@ class PagesController extends Controller{
     
     const VIEW_PATH = 'pages';
     
+    public function __construct() {
+        $this->middleware('auth')->except(['getAbout', 'getContact']);
+    }
+    
     /*
      * Return the about page
      * 

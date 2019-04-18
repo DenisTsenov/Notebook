@@ -17,9 +17,10 @@ const PAGES = 'Pages';
 /**
  * Start of auth routes
  */
+//login
 Route::get('auth/login', 'Auth\LoginController@showLoginForm')->name('get.login');
 Route::post('auth/login', 'Auth\LoginController@login')->name('post.login');
-Route::get('auth/logout', 'Auth\LoginController@logout');
+Route::get('auth/logout', 'Auth\LoginController@logout')->name('logout');
 //register
 Route::get('auth/register', 'Auth\RegisterController@showRegistrationForm')->name('get.register');
 Route::post('auth/register', 'Auth\RegisterController@register')->name('post.register');
@@ -32,8 +33,8 @@ Route::post('auth/register', 'Auth\RegisterController@register')->name('post.reg
 /**
  * Start of Notes routes
  */
-Route::resource('note', NOTES.'\NoteController');
 
+Route::resource('note', NOTES.'\NoteController');
 Route::get('note/{page}', ['as' => 'note.ajaxPagination', 'uses' => NOTES.'\NoteController@ajaxPagination']);
 
 /**
@@ -45,7 +46,6 @@ Route::get('note/{page}', ['as' => 'note.ajaxPagination', 'uses' => NOTES.'\Note
 /**
  * Start of Slugs routes
  */
-
 Route::get('notes-slug/{slug}', ['as' => 'note.slug', 'uses' => SLUGS.'\SlugController@getNoteBySlug'])
         ->where('slug', '[\w\d\-\_]+'); // simple regex just to prevent user from search for unaccsesable slugs
 

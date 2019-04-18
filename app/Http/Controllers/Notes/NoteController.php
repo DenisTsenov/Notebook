@@ -9,7 +9,11 @@ use App\Models\Note;
 use Session;
 
 class NoteController extends Controller {
-
+    
+    public function __construct() {
+        $this->middleware('auth');
+    }
+    
     const STATUS_OK = 200;
 
     /**
@@ -72,7 +76,6 @@ class NoteController extends Controller {
         $newNote->slug = $request->slug;
         $newNote->important = $request->has('important');
 
-
         //save the record
         $newNote->save();
 
@@ -116,7 +119,7 @@ class NoteController extends Controller {
     public function update(Request $request, $id) {
         // find the record in the Db
         $editNote = Note::find($id);
-        
+
         //validate the data
         $request->validate([
             'title' => 'max:225',

@@ -7,6 +7,10 @@ use App\Models\Note;
 
 class SlugController extends Controller {
     
+    public function __construct() {
+        $this->middleware('auth');
+    }
+    
     const STATUS_OK = 200;
     
     public function getIndex() {

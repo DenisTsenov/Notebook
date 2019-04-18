@@ -30,7 +30,7 @@
             'class' => 'form-control',
                 'required',
                 'data-parsley-required' => 'true',
-                'minlength' => '2',
+                'minlength' => '5',
                 'maxlength' => '255',
         ]) }}
         </div>
@@ -47,8 +47,8 @@
         </div>
 
         <div class="form-group">
-            {{ Form::label("password_conformation", 'Confirm password', ['class' => 'control-label']) }}
-            {{ Form::password('password_conformation', [
+            {{ Form::label("password_confirmation", 'Confirm password', ['class' => 'control-label']) }}
+            {{ Form::password('password_confirmation', [
             'class' => 'form-control',
                 'required',
                 'data-parsley-required' => 'true',
