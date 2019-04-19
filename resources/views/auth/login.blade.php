@@ -38,7 +38,7 @@
         <br>
         
         {{ Form::submit('Enter in profile', ['class', 'btn btn-outline-info btn-block']) }}
-        
+        <p> <a href="{{ url('password/reset') }}">Forgot password?</a></p>
         {!! Form::close() !!}
     </div>
 </div>
