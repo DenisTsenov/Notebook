@@ -5,7 +5,8 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use App\Models\Category;
+use App\Models\Note;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -36,5 +37,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    protected $table = 'users';
+    
+    public function notes() {
+        return $this->hasMany(Note::class, 'user_id', 'id');
+    }
+    
+    public function categories() {
+        return $this->hasMany(Category::class, 'user_id', 'id');
+    }
     
 }
