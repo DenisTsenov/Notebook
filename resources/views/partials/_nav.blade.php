@@ -32,6 +32,18 @@
                     <a class="dropdown-item" href="#">{{ Auth::user()->name }} Profile</a>
                 </div>
             </li>
+            
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ route('category.index')}}">Categories List</a>
+                    <a class="dropdown-item" href="{{ route('category.create')}}">Create New Category</a>
+                </div>
+            </li>
+            
              @endif
         </ul>
         <form class="form-inline my-2 my-lg-0">

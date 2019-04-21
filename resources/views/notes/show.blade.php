@@ -11,6 +11,7 @@
         <p class="h3 text-center">{{ $note->title }}</p>
         @endif
         <hr/>
+        <p class="lead text-center">Category: {{ $note->category->name }}</p>
         <p class="lead text-center">{{ $note->content }}</p>
     </div>
     <div class="col-md-4">

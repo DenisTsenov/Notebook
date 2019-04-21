@@ -151,7 +151,7 @@ class NoteController extends Controller {
     public function destroy($id) {
         $noteToDelete = Note::find($id);
         $noteToDelete->delete();
-        Session::flash('success', 'The post was deleted successfully.');
+        Session::flash('success', 'The note was deleted successfully.');
 
         return redirect()->route('note.index');
     }
