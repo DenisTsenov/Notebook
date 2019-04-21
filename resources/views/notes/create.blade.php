@@ -50,6 +50,12 @@
             {{ Form::label('important', 'Marks as Important', ['class' => 'form-check-label']) }}
             <br><br>
         </div>
+        <div class="form-group">
+            {{ Form::label('category_id', 'Category') }}
+            {!! Form::select('category_id', $categories, null,
+            ['class' => 'form-control', "placeholder" => "Pick a category"]) !!}﻿
+
+        </div>
 
         {{ Form::submit('Submit', ['class' => 'btn btn-outline-info btn-block']) }}
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Slugs;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Note;
 
 class SlugController extends Controller {
@@ -15,7 +16,8 @@ class SlugController extends Controller {
     
     public function getIndex() {
         
-        $allNotes = Note::orderBy('created_at', 'desc')->paginate(3);
+        $allNotes = Note::orderBy('created_at', 'desc')->where('user_id', '=', Auth::id())
+                ->paginate(3);
         
         return view('slugs.index', ['allNotes' => $allNotes]);
     }
@@ -30,7 +32,8 @@ class SlugController extends Controller {
 
         if ($request->ajax()) {
 
-            $allNotes = DB::table('notes')->orderBy('created_at', 'desc')->paginate(3);
+            $allNotes = DB::table('notes')->where('user_id', '=', Auth::id())
+                ->orderBy('created_at', 'desc')->paginate(3);
 
             return Response::json(['allNotes' => $allNotes], self::STATUS_OK);
         }
@@ -44,7 +47,10 @@ class SlugController extends Controller {
      */
     public function getNoteBySlug(string $slug) {
         
-        $noteBySlug = Note::where('slug', $slug)->first();
+        $noteBySlug = Note::where([
+            ['slug', '=', $slug],
+            ['user_id', '=', Auth::id()],
+        ])->first();
         
         return view('slugs.single', ['noteBySlug' => $noteBySlug]);
         

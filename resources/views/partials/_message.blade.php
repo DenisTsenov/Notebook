@@ -5,6 +5,12 @@
     </div>
     @endif
     
+    @if(Session::has('delete_fail'))
+    <div class="alert alert-danger" role="alert">
+        Fail! {{ Session::get('delete_fail') }}
+    </div>
+    @endif
+    
     @if(count($errors) > 0) 
     <div class="alert alert-danger" role="alert">
         <strong>Oops!</strong>

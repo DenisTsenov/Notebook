@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Categories;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Session;
@@ -20,7 +21,8 @@ class CategoryController extends Controller {
      */
     public function index() {
         
-        $categories =  DB::table('categories')->orderBy('created_at', 'desc')->paginate(3);;
+        $categories =  DB::table('categories')->where('user_id', '=', Auth::id())
+                ->orderBy('created_at', 'desc')->paginate(3);;
         
         return view('categories.index', ['categories' => $categories]);
     }
@@ -50,6 +52,7 @@ class CategoryController extends Controller {
         $category = new Category();
         
         $category->name = $request->name;
+        $category->user_id = Auth::id();
         $category->save();
         
         $request->session()->flash('success', 'Category was successfully created!'); 
@@ -65,7 +68,10 @@ class CategoryController extends Controller {
      */
     public function show($id) {
         
-        $category = Category::find($id);
+        $category = Category::where([
+            ['id', '=', $id],
+            ['user_id', '=', Auth::id()],
+        ])->first();
 
         return view('categories.show', ['category' => $category]);
     }
@@ -78,7 +84,10 @@ class CategoryController extends Controller {
      */
     public function edit($id) {
         
-        $category = Category::find($id);
+        $category = Category::where([
+            ['id', '=', $id],
+            ['user_id', '=', Auth::id()],
+        ])->first();
 
         return view('categories.edit', ['category' => $category]);
     }
@@ -92,7 +101,10 @@ class CategoryController extends Controller {
      */
     public function update(Request $request, $id) {
         
-        $category = Category::find($id);
+        $category = Category::where([
+            ['id', '=', $id],
+            ['user_id', '=', Auth::id()],
+        ])->first();
          
         $request->validate([
             'name' => ($category->slug != $request->slug) ? 'required|min:2|max:50|unique:categories' : '',
@@ -113,7 +125,16 @@ class CategoryController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        $categoryToDelete = Category::find($id);
+        $categoryToDelete = Category::where([
+            ['id', '=', $id],
+            ['user_id', '=', Auth::id()],
+        ])->first();
+
+        if($categoryToDelete->notes()->count() > 0){
+            Session::flash('delete_fail', 'The Category was not deleted because there are 
+                    some Notes under it.');
+            return back();
+        }
         $categoryToDelete->delete();
         Session::flash('success', 'The Category was deleted successfully.');
 

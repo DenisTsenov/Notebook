@@ -51,6 +51,12 @@
             {{ Form::label('important', 'Marks as Important', ['class' => 'form-check-label']) }}
             <br><br>
         </div>
+         <div class="form-group">
+            {{ Form::label('category_id', 'Category') }}
+            {{ Form::select('category_id', $categories, $note->category_id,
+            ['class' => 'form-control', "placeholder" => "Pick a category"]) }}﻿
+
+        </div>
 
         {{ Form::submit('Edit', ['class' => 'btn btn-outline-success btn-block']) }}
         {!! $note->important ? '<span class="badge badge-warning">This Note Is Marked as Important</span>' : '' !!}

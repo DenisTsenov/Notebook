@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Notes;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Category;
 use App\Models\Note;
 use Session;
 
@@ -22,8 +24,9 @@ class NoteController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-
-        $notes = DB::table('notes')->orderBy('created_at', 'desc')->paginate(3);
+        
+        $notes = DB::table('notes')->where('user_id', '=', Auth::id())
+            ->orderBy('created_at', 'desc')->paginate(3);
 
         return view('notes.index', ['notes' => $notes]);
     }
@@ -38,7 +41,8 @@ class NoteController extends Controller {
 
         if ($request->ajax()) {
 
-            $notes = DB::table('notes')->orderBy('created_at', 'desc')->paginate(3)->get();
+            $notes = DB::table('notes')->orderBy('created_at', 'desc')
+                ->where('user_id', '=', Auth::id())->paginate(3)->get();
 
             return Response::json(['notes' => $notes], self::STATUS_OK);
         }
@@ -50,7 +54,10 @@ class NoteController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return view('notes.create');
+        
+        $categories = Category::pluck('name','id');
+        
+        return view('notes.create', ['categories' => $categories]);
     }
 
     /**
@@ -65,7 +72,8 @@ class NoteController extends Controller {
             'title' => 'max:225',
             'content' => 'required|min:5|max:3000',
             'slug' => 'required|min:2|max:225|unique:notes,slug',
-            'inportant' => 'boolean'
+            'category_id' => 'required|integer',
+            'inportant' => 'boolean',
         ]);
         //call the Note model if the validation has passed
         $newNote = new Note();
@@ -74,6 +82,9 @@ class NoteController extends Controller {
         $newNote->title = $request->title;
         $newNote->content = $request->content;
         $newNote->slug = $request->slug;
+        $newNote->slug = $request->slug;
+        $newNote->category_id = $request->category_id;
+        $newNote->user_id = Auth::id();
         $newNote->important = $request->has('important');
 
         //save the record
@@ -92,8 +103,11 @@ class NoteController extends Controller {
      */
     public function show($id) {
 
-        $note = Note::find($id);
-
+        $note = Note::where([
+            ['id', '=', $id],
+            ['user_id', '=', Auth::id()],
+        ])->first();
+        
         return view('notes.show', ['note' => $note]);
     }
 
@@ -104,9 +118,18 @@ class NoteController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $note = Note::find($id);
-
-        return view('notes.edit', ['note' => $note]);
+        $note = Note::where([
+            ['id', '=', $id],
+            ['user_id', '=', Auth::id()],
+        ])->first();
+        $categories = Category::all();
+         
+        $categoryHolder = [];
+        foreach($categories as $category){
+            $categoryHolder[$category->id] = $category->name;
+        }
+        
+        return view('notes.edit', ['note' => $note, 'categories' => $categoryHolder]);
     }
 
     /**
@@ -118,14 +141,19 @@ class NoteController extends Controller {
      */
     public function update(Request $request, $id) {
         // find the record in the Db
-        $editNote = Note::find($id);
+        $editNote = Note::where([
+            ['id', '=', $id],
+            ['user_id', '=', Auth::id()],
+        ])->first();
 
         //validate the data
         $request->validate([
             'title' => 'max:225',
             'content' => 'required|min:5|max:3000',
-            'slug' => ($editNote->slug != $request->slug) ? "required|alpha_dash|min:2|max:225|unique:notes,slug,$id" : '',
-            'inportant' => 'boolean'
+            'slug' => ($editNote->slug != $request->slug) ? 
+            "required|alpha_dash|min:2|max:225|unique:notes,slug,$id" : '',
+            'category_id' => 'required|integer',
+            'inportant' => 'boolean',
         ]);
 
         //store the data
@@ -133,6 +161,7 @@ class NoteController extends Controller {
         $editNote->content = $request->content;
         $editNote->slug = $request->slug;
         $editNote->important = $request->has('important');
+        $editNote->category_id = $request->category_id;
 
         //save the record
         $editNote->save();
@@ -149,11 +178,14 @@ class NoteController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        $noteToDelete = Note::find($id);
+        $noteToDelete = Note::where([
+            ['id', '=', $id],
+            ['user_id', '=', Auth::id()],
+        ])->first();
+        
         $noteToDelete->delete();
         Session::flash('success', 'The note was deleted successfully.');
 
         return redirect()->route('note.index');
     }
-
 }
