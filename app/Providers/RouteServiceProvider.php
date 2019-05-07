@@ -40,6 +40,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
 
         $this->mapCategoryRoutes();
+        
+        $this->mapTagRoutes();
     }
 
     /**
@@ -61,6 +63,13 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
              ->namespace($this->namespace)
              ->group(base_path('routes/category/categoryRoutes.php'));
+    }
+    
+    protected function mapTagRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/tags/tagsRoutes.php'));
     }
 
     /**

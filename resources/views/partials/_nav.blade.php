@@ -28,6 +28,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ route('note.index')}}">Notes List</a>
                     <a class="dropdown-item" href="{{ route('note.create')}}">Create New Note</a>
+                    <a class="dropdown-item" href="{{ route('tags.index')}}">Tags</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">{{ Auth::user()->name }} Profile</a>
                 </div>

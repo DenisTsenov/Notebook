@@ -25,8 +25,6 @@ Route::get('auth/logout', 'Auth\LoginController@logout')->name('logout');
 //register
 Route::get('auth/register', 'Auth\RegisterController@showRegistrationForm')->name('get.register');
 Route::post('auth/register', 'Auth\RegisterController@register')->name('post.register');
-// password reset 
-Auth::routes();
 
 /**
  * End of auth routes

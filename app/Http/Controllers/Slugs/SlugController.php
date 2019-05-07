@@ -22,7 +22,7 @@ class SlugController extends Controller {
         return view('slugs.index', ['allNotes' => $allNotes]);
     }
     
-       /**
+    /**
      * Display a listing of the resource using ajax request
      * 
      * @param Request $request
@@ -51,7 +51,7 @@ class SlugController extends Controller {
             ['slug', '=', $slug],
             ['user_id', '=', Auth::id()],
         ])->first();
-        
+//dd($noteBySlug);
         return view('slugs.single', ['noteBySlug' => $noteBySlug]);
         
     }

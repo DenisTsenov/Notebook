@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Note;
 
 /**
@@ -43,12 +44,19 @@ class PagesController extends Controller{
      */
     public function getIndex() {
         
-        $importantNotes = Note::select('id', 'title', 'slug')->where('important', true)
+        $importantNotes = Note::select('id', 'title', 'slug')
+        ->where([
+            ['important', true],
+            ['user_id', '=', Auth::id()],
+        ])
         ->orderBy('created_at', 'desc')->limit(3)->get();
         $noImportant = 'alert-warning';
-        
+    
         if($importantNotes->count() < 1){
             $importantNotes = Note::select('id', 'title', 'slug')
+        ->where([
+            ['user_id', '=', Auth::id()],
+        ])
             ->orderBy('created_at', 'desc')->limit(3)->get();
             $noImportant = false;
         }
