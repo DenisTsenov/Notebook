@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Note;
+use App\Models\Tag;
 use Session;
 
 class NoteController extends Controller {
@@ -55,9 +56,10 @@ class NoteController extends Controller {
      */
     public function create() {
         
+        $tags = Tag::all();
         $categories = Category::pluck('name','id');
         
-        return view('notes.create', ['categories' => $categories]);
+        return view('notes.create', ['categories' => $categories, 'tags' => $tags]);
     }
 
     /**
@@ -67,6 +69,7 @@ class NoteController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+        dd($request->input('states'));
         //validate the data
         $request->validate([
             'title' => 'max:225',

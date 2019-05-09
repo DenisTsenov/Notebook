@@ -4,6 +4,7 @@
 
 @section('stylesheets')
 {!! Html::style('css/parsley.css') !!}
+{!! Html::style('css/select2.min.css') !!}
 @endsection
 
 @section('content')
@@ -20,6 +21,7 @@
                     ]) }}
             <small id="emailHelp" class="form-text text-muted">This field is not mandatory.</small>
         </div>
+
         <div class="form-group">
             {{ Form::label('slug', 'Slug*') }}
             {{ Form::text('slug', null, [
@@ -45,16 +47,25 @@
                 'maxlength' => '3000',
                     ]) }}
         </div>
-        <div class="form-check">
-            {{ Form::checkbox('important', 'value', false,['class' => 'form-check-input']) }}
-            {{ Form::label('important', 'Marks as Important', ['class' => 'form-check-label']) }}
-            <br><br>
-        </div>
+
+            {{ Form::label('states', 'Tags') }}
+            <select class="form-control js-example-basic-multiple" name="states[]" multiple="multiple">
+                @foreach($tags as $tag)
+                <option value="{{$tag->id }}"> {{ $tag->name }} </option>
+                @endforeach
+            </select>
+        <br><br>
         <div class="form-group">
             {{ Form::label('category_id', 'Category') }}
             {!! Form::select('category_id', $categories, null,
             ['class' => 'form-control', "placeholder" => "Pick a category"]) !!}﻿
 
+        </div>
+        
+        <div class="form-check">
+            {{ Form::checkbox('important', 'value', false,['class' => 'form-check-input']) }}
+            {{ Form::label('important', 'Marks as Important', ['class' => 'form-check-label']) }}
+            <br><br>
         </div>
 
         {{ Form::submit('Submit', ['class' => 'btn btn-outline-info btn-block']) }}
@@ -67,4 +78,15 @@
 
 @section('scripts')
 {!! Html::script('js/parsley.min.js') !!}
+{!! Html::script('js/select2.min.js') !!}
 @endsection
+
+@push('custom-scripts')
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.js-example-basic-multiple').select2({
+            placeholder: 'Select a tag'
+        });
+    });
+</script>
+@endpush
