@@ -48,8 +48,8 @@
                     ]) }}
         </div>
 
-            {{ Form::label('states', 'Tags') }}
-            <select class="form-control js-example-basic-multiple" name="states[]" multiple="multiple">
+            {{ Form::label('tags', 'Tags') }}
+            <select class="form-control multiple" name="tags[]" multiple="multiple">
                 @foreach($tags as $tag)
                 <option value="{{$tag->id }}"> {{ $tag->name }} </option>
                 @endforeach
@@ -84,7 +84,7 @@
 @push('custom-scripts')
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.js-example-basic-multiple').select2({
+        $('.multiple').select2({
             placeholder: 'Select a tag'
         });
     });
