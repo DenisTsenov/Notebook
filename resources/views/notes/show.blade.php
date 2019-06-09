@@ -11,6 +11,18 @@
         <p class="h3 text-center">{{ $note->title }}</p>
         @endif
         <hr/>
+        @if(!empty($note->tags))
+        <div class="tags">
+            <ul><h3>Tags</h3>
+                @foreach($note->tags as $tag)
+                <span class="label label-default">
+                    <li>{{ $tag->name }}</li>
+                </span>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+        <hr/>
         <p class="lead text-center">Category: {{ $note->category->name }}</p>
         <p class="lead text-center">{{ $note->content }}</p>
     </div>
@@ -35,7 +47,7 @@
                     </div>
                     <div class="col-sm-6">
                         {{ Form::open(['route' => ['note.destroy', $note->id], 'method' => 'DELETE']) }}
-                            <td>{{ Form::submit('Delete', ['class' => 'btn btn-danger btn-block']) }}</td>
+                        <td>{{ Form::submit('Delete', ['class' => 'btn btn-danger btn-block']) }}</td>
                         {{ Form::close() }}
                     </div>
                 </div>

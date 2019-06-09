@@ -9,7 +9,7 @@ class Tag extends Model {
 
     protected $table = 'tags';
 
-    public function note() {
+    public function notes() {
         return $this->belongsToMany(Note::class, 'note_tag', 'tag_id', 'note_id');
     }
 

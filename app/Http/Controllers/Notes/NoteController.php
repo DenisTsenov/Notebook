@@ -28,7 +28,9 @@ class NoteController extends Controller {
 
         $notes = DB::table('notes')->where('user_id', '=', Auth::id())
                         ->orderBy('created_at', 'desc')->paginate(3);
-
+        foreach ($notes as $note){
+            
+        }
         return view('notes.index', ['notes' => $notes]);
     }
 
@@ -90,8 +92,8 @@ class NoteController extends Controller {
 
         //save the record
         $newNote->save();
-        dd($newNote->tag()->sync($request->tags, false));
-//        $newNote->tags()->sync($request->tags, false);
+        
+        $newNote->tags()->sync($request->tags, false);
 
         //redirect to other page with flash message
         $request->session()->flash('success', 'Task was successfully created!'); //one request msg
@@ -101,15 +103,13 @@ class NoteController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Note  $note
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
-
-        $note = Note::where([
-                    ['id', '=', $id],
-                    ['user_id', '=', Auth::id()],
-                ])->first();
+    public function show(Note $note) {
+        $note::where(
+                'user_id', '=', Auth::id()
+        )->get();
 
         return view('notes.show', ['note' => $note]);
     }
@@ -117,21 +117,20 @@ class NoteController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Note  $note
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
-        $note = Note::where([
-                    ['id', '=', $id],
-                    ['user_id', '=', Auth::id()],
-                ])->first();
+    public function edit(Note $note) {
+        $note::where(
+                        'user_id', '=', Auth::id()
+                )->first();
         $categories = Category::all();
 
         $categoryHolder = [];
         foreach ($categories as $category) {
             $categoryHolder[$category->id] = $category->name;
         }
-
+        
         return view('notes.edit', ['note' => $note, 'categories' => $categoryHolder]);
     }
 
@@ -139,22 +138,21 @@ class NoteController extends Controller {
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Note  $editNote
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, Note $editNote) {
         // find the record in the Db
-        $editNote = Note::where([
-                    ['id', '=', $id],
-                    ['user_id', '=', Auth::id()],
-                ])->first();
+        $editNote::where(
+                        'user_id', '=', Auth::id()
+                )->first();
 
         //validate the data
         $request->validate([
             'title' => 'max:225',
             'content' => 'required|min:5|max:3000',
             'slug' => ($editNote->slug != $request->slug) ?
-                    "required|alpha_dash|min:2|max:225|unique:notes,slug,$id" : '',
+                    "required|alpha_dash|min:2|max:225|unique:notes,slug,$editNote" : '',
             'category_id' => 'required|integer',
             'inportant' => 'boolean',
         ]);
@@ -180,16 +178,13 @@ class NoteController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
-        $noteToDelete = Note::where([
-                    ['id', '=', $id],
-                    ['user_id', '=', Auth::id()],
-                ])->first();
-
+   public function destroy($id) {
+       
+        $noteToDelete = Note::find($id);
+        
         $noteToDelete->delete();
         Session::flash('success', 'The note was deleted successfully.');
 
         return redirect()->route('note.index');
     }
-
 }
